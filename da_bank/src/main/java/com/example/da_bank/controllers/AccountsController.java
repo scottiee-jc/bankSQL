@@ -28,7 +28,7 @@ public class AccountsController {
 
     @PostMapping
     @RolesAllowed("ROLE_EDITOR")
-    public @ResponseBody ResponseEntity<BankAccount> createBA(@Valid BankAccount bankAccount) {
+    protected ResponseEntity<BankAccount> createBA(@RequestBody @Valid BankAccount bankAccount) {
         BankAccount savedBA = bankAccountRepository.save(bankAccount);
         URI accountURI = URI.create("/accounts/" + savedBA.getId());
         return ResponseEntity.created(accountURI).body(savedBA);

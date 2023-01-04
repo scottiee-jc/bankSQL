@@ -2,6 +2,7 @@ package com.example.da_bank.models;
 
 import com.example.da_bank.Exceptions.InsufficientBalanceException;
 import com.example.da_bank.Exceptions.NegativeAmountException;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -18,6 +19,7 @@ public class BankAccount {
     String name;
     String type;
     BigDecimal balance;
+    @JsonIgnoreProperties
     @OneToMany
     private List<AccountUser> accountUser;
 

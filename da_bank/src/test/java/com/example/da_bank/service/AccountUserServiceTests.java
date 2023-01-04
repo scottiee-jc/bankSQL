@@ -3,6 +3,7 @@ package com.example.da_bank.service;
 import com.example.da_bank.models.AccountUser;
 import com.example.da_bank.models.Role;
 import com.example.da_bank.repositories.AccountUserRepository;
+import com.example.da_bank.service.AccountUserService.AccountUserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -20,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class AccountUserServiceTests {
 
     @Autowired
-    AccountUserService accountUserService;
+    AccountUserServiceImpl accountUserServiceImpl;
 
     @Autowired
     AccountUserRepository accountUserRepository;
@@ -43,7 +44,7 @@ public class AccountUserServiceTests {
     public void emailTest() {
         String emailAddress = "username@domain.com";
         String regexPattern = "^(.+)@(\\S+)$";
-        assertTrue(accountUserService.patternMatches(emailAddress, regexPattern));
+        assertTrue(accountUserServiceImpl.patternMatches(emailAddress, regexPattern));
 
 //        assertTrue(EmailValidation.patternMatches(emailAddress, regexPattern));
     }
@@ -52,7 +53,7 @@ public class AccountUserServiceTests {
     public void phoneNumberTest(){
         String phone_number = "7762572107";
         String regexPhone = "^\\d{10}$";
-        assertTrue(accountUserService.patternMatches(phone_number, regexPhone));
+        assertTrue(accountUserServiceImpl.patternMatches(phone_number, regexPhone));
     }
 
     @Test

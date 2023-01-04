@@ -11,18 +11,18 @@ public class Role {
     private Long id;
 
     @Column(nullable = false, length = 50, unique = true)
-    private String name;
+    private String roleName;
 
     public Role(){
     }
 
-    public Role(String name, Long id){
-        this.name = name;
+    public Role(String roleName, Long id){
+        this.roleName = roleName;
         this.id = id;
     }
 
-    public Role(String name) {
-        this.name = name;
+    public Role(String roleName) {
+        this.roleName = roleName;
     }
     //test constructor
     public Role(Long roleId) {
@@ -31,7 +31,7 @@ public class Role {
 
     @Override
     public String toString() {
-        return this.name;
+        return this.roleName;
     }
 
     public Long getId() {
@@ -42,11 +42,11 @@ public class Role {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }

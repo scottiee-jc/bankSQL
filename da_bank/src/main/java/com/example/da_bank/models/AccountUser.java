@@ -13,7 +13,7 @@ import java.util.*;
 public class AccountUser implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "first_name")
     String firstName;
@@ -33,13 +33,8 @@ public class AccountUser implements UserDetails {
     @JsonIgnoreProperties
     private List<BankAccount> bankAccount;
 
-    @ManyToMany
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Role> roles = new ArrayList<>();
 
     public AccountUser() {
     }
@@ -55,7 +50,7 @@ public class AccountUser implements UserDetails {
         this.bankAccount = new ArrayList<>();
         this.email = email;
         this.phone_number = phone_number;
-        this.roles = new HashSet<>();
+        this.roles = new ArrayList<>();
     }
 
     public AccountUser(String firstName, String lastName, int customerNumber, String dob, String username, String password, String email, String phone_number) {
@@ -88,7 +83,7 @@ public class AccountUser implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities(){
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
+            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
         }
         return authorities;
     }
@@ -194,7 +189,7 @@ public class AccountUser implements UserDetails {
         this.phone_number = phone_number;
     }
 
-    public Set<Role> getRoles() {
+    public Collection<Role> getRoles() {
         return roles;
     }
 

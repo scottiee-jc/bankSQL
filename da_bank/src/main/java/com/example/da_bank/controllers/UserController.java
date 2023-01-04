@@ -4,7 +4,7 @@ import com.example.da_bank.models.AccountUser;
 import com.example.da_bank.models.BankAccount;
 import com.example.da_bank.repositories.AccountUserRepository;
 import com.example.da_bank.repositories.BankAccountRepository;
-import com.example.da_bank.service.AccountUserService;
+import com.example.da_bank.service.AccountUserService.AccountUserServiceImpl;
 import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +20,12 @@ public class UserController {
     BankAccountRepository bankAccountRepository;
 
     @Autowired
-    AccountUserService accountUserService;
+    AccountUserServiceImpl accountUserServiceImpl;
 
-    public UserController(AccountUserRepository accountUserRepository, BankAccountRepository bankAccountRepository, AccountUserService accountUserService) {
+    public UserController(AccountUserRepository accountUserRepository, BankAccountRepository bankAccountRepository, AccountUserServiceImpl accountUserServiceImpl) {
         this.accountUserRepository = accountUserRepository;
         this.bankAccountRepository = bankAccountRepository;
-        this.accountUserService = accountUserService;
+        this.accountUserServiceImpl = accountUserServiceImpl;
     }
 
     @GetMapping("/getAllUsers")
@@ -36,19 +36,7 @@ public class UserController {
     }
 
     // String firstName, String lastName, int accountNumber, LocalDate dob, String username, String password
-    @PostMapping("/createUserAccount")
-    public @ResponseBody String createUserAccount(
-            @RequestParam ("customer_number") int customerNumber,
-            @RequestParam ("dob") String dob,
-            @RequestParam ("first_name") String firstName,
-            @RequestParam ("last_name") String lastName,
-            @RequestParam ("password") String password,
-            @RequestParam ("username") String username,
-            @RequestParam ("email") String email,
-            @RequestParam ("phone_number") String phone_number
-    ){
-        return accountUserService.createUserAccount(customerNumber, dob, firstName, lastName, password, username, email, phone_number);
-    }
+
 
     @GetMapping("/getUserById/{id}")
     public @ResponseBody AccountUser getUserById(@PathVariable Long id){
@@ -64,7 +52,7 @@ public class UserController {
             @RequestParam (required = false, name = "email") String email,
             @RequestParam (required = false, name = "phone_number") String phone_number
             ){
-        return accountUserService.updateUserAccount(customerNumber, username, password, email, phone_number);
+        return accountUserServiceImpl.updateUserAccount(customerNumber, username, password, email, phone_number);
     }
 
     @PostMapping("/addBankAccount")
@@ -86,10 +74,5 @@ public class UserController {
 
     }
 
-
-    @DeleteMapping("/deleteUserAccount/{id}")
-    public void deleteUserAccount(@PathVariable Long id){
-        accountUserRepository.deleteById(id);
-    }
 
 }
